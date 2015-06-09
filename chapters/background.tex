@@ -1,10 +1,92 @@
 \section{Behavior Trees}
 \subsection{Synopsis}
-dupa
+Behavior Trees are depth-first, ordered Directed Acyclic Graphs (DAGs) used to represent a decision process. A Behavior Tree is syntactically represented as a rooted tree structure, constructed from a variety of nodes each with its individual internal function. Each node has a return status, commonly: Success, Failure or Running, used to determine a result (or lack of one, in case of status Running) of the node’s execution. [2]
+
+Behavior Trees are usually composed of three kinds of nodes: Actions, Conditions and Composites. Actions and Conditions belong only in leafs, while Composite nodes construct the rest of the tree. Action nodes define specific instructions (or sets of instructions) for the agent to execute on environment, while Conditions test some property of the environment, returning Success if the conditions are met and Failure otherwise. In practice: ``As a result, Actions usually follow a Condition node to determine if the Action is applicable. Alternatively, if some fixed precondition needs to be applied to a node, the condition can be checked within the node itself returning Failure is the condition is not meet or if there is some internal time-out.'' [2]
+
+While Actions can be said to control the agent, Composite nodes are what controls the flow of the tree, i.e. how the tree is actually executed. In this paper, only Selectors, Sequences, Parallel-All and Parallel-One. will be considered.
+
+Sequence node returns Success only if all of its children return Success and Failure otherwise. Typically, it will test its child nodes sequentially along a certain priority, for example, defined in the ordering from left to right of the children nodes. [2]
+Selector node, being a operational opposite of Sequence, will return Success when one of its children return Success and Failure when all of its children return Failure. Similar to Sequence, it will usually test the child nodes in some sequentially prioritised manner. Parallel nodes differ from other Composite nodes in a way they execute the child nodes: usually running them concurrently, returning when one (Parallel-One) or all of them (Parallel-All) return Success.
+
+While selection of  Action and Condition nodes are (often) entirely implementation-dependent, as they must be programmed to perform specific tasks (or query the environment for specific condition), most of the Composite nodes are not dependent on the platform and may be freely reused (with the possible exception in Parallel type nodes).
 \subsection{Execution example}
-dupa
+Consider the task of getting to a room through the door. For this, we could propose following behavior tree (adapted from [2]):
+% image here
+In the above tree we consider:
+\begin{itemize}
+    \item nodes 1 and 8 to be Selectors
+    \item nodes 2, 6, 9 and 13 to be Sequences
+    \item nodes 3 and 10 to be Conditions
+    \item nodes 4, 5, 7, 11, 12, 14, 15 and 16 to be Actions
+\end{itemize}
+Both Action and Condition nodes here have parameters (Door and Room, which we consider constants denoting, respectably: door in question that we need to get through to a room behind it)
+In case when the door is already open, Selector 1 will go to node 2 (Sequence) and, after verifying that the Door is open (Condition 3), will proceed to opening the door and closing them (Actions 4 \& 5)
+In case when the door is closed, but not locked, Selector 1 will go to node 2 as well, but since Condition 3 will fail, next node evaluated will be Sequence 6. After moving to the door (Action 7) we first(Sequence 9) confirm that the door is, in fact, unlocked (Condition 10) and proceed to open it and move to the room (Actions 11 and 12). After returning from Sequence 9 (with Success) and Selector 8 (since 9 returned Success), it will proceed to closing the door (Action 16).
+Finally,  if the door is both closed AND locked, Selector 1 will go to node 2 first, but since Condition 3 will fail, next node evaluated will be Sequence 6. After moving to the door (Action 7) and finding out that the door is locked (Condition 10), we will go straight to Sequence 13, first smashing the door (Action 14), then moving to the room (Action 15) and eventually, after returning from nodes 13 and 8, closing the door (Action 16).
 \section{Evolutionary Learning}
 \subsection{Genetic Algorithms}
-dupa
+Genetic Algorithms are a family of search heuristics inspired by Darwin’s model of natural selection.
+
+The idea is as such: starting with a random generated set of k specimen (called population) traditionally consisting of fixed-length boolean-value strings, each with an associated fitness value, we modify it using genetic operators (crossover and mutation) n times, breeding new population each step. One iteration of such modifications along with selection is called a generation or an epoch.
+
+Population is a set of candidate solutions to a given problem, that are later measured (or evaluated) by a user-defined, problem-specific evaluation function (fitness function). Some of these candidate solutions, based on their fitness, are chosen to become a parents to a next generation. The resulting “children” are each constructed of genes from their “parents”, where the specific combination is determined by a crossover process. Furthermore, each child might go through a mutation process, typically implemented as changing individual parts of a solution (introducing some variation in the populations, which helps broaden the search space).
+
+With that, we can describe Genetic Algorithm with following series of steps:
+\begin{description}
+    \item[Initialisation] -- Randomly generate a set of solutions.
+    \item[Evaluation] -- assign each specimen a value determined by evaluation function (i.e. ``grading the specimen in the population'').
+    \item[Evolution:] % the list should start on line below
+        \begin{enumerate}
+            \item Select a pool of parents (using some selection strategy) 
+            \item Pair parents and breed two new specimen from each pair (going through a crossover process)
+            \item Subject children to a mutation process, with given rate.
+                After a new generation is born, repeat steps 2 and 3 until the end condition is met.
+        \end{enumerate}
+\end{description}
+
+Following are the parameters relevant to a Genetic Algorithm Process:
+\begin{description}
+    \item[population size] -- number of specimen generated at each iteration
+    \item[number or generations] -- or other end-conditions. Usually the maximum number of generations allowed, after which the process shall end
+    \item[fitness function] -- a function to grade the value of the specimen
+    \item[selection method] -- a strategy to choose parents for the next generation
+    \item[mutation rate] -- a rate affecting the number of children that will go through mutation process
+\end{description}
+Some implementations include crossover rate too, but traditionally parents are replicating with 100\% reliability, always producing two children.
+
+% rework as sub-sub section, or something.
+Selection Selecting individuals appropriate to be parents is a challenging task, and a large selections of methods has been developed to perform it, ranging from Truncation selection (in which we select a number of best individuals and then copy them to match population size) to Stochastic Universal Sampling (a variant of Roulette selection). Arguably, the two that have been most widely used are aforementioned Roulette selection and Tournament selection, both of which will be discussed below
+
+Roulette selection, also knows as Fitness-Proportionate Selection, was the original technique for selection with Genetic Algorithms. [3] In this method, we choose the specimen proportionally to their fitness - specimen with larger fitness values will be selected more often. In practice, let s be the sum fitness of all the individuals. A random number from 0 to s falls within the range of some individual, which is then selected.
+
+Roulette selection, however, makes a big assumption: it presumes that the actual fitness
+value of an individual really means something important. As Luke writes: “But often we choose a fitness function such that higher ones are “better” than smaller ones, and don’t mean to imply anything more.” [3]
+
+Tournament selection solves that problem. The algorithms is definitely on the simpler size: we choose a sample of the population (our “tourney”) and return the best individual in that sample. This way, we don’t actually consider the individual values of the specimen, but rather their “rank”. Tourney size is modifiable, allowing for finer tuning, depending on the needs.
+
+% image somewhere here
+Crossover Crossover involves mixing genes of two specimen to form offspring (although some research mentioned in [2] suggests that using more than two parents generate higher quality children). The most common method of doing that seems to be One- or Multi Point Crossover, which involves choosing a random point (or points) along each chromosome and exchanging genetic material between them. Figure 2 illustrates the process of One- and Two- Point Crossover.
+
+Mutation Mutation is usually implemented as randomly changing one (or more) genes in a chromosome. Depending on the actual representation of the chromosome, this may be either a bit-flip (as shown in [3]) or replacing a value with one randomly generated with given distribution, in a certain range.
 \subsection{Genetic Programming}
-dupa
+Koza [4] writes: % rework as a reference or quote or something. 
+
+``Genetic programming is an automatic technique for producing a computer program that solves, or approximately solves, a problem. Genetic programming addresses the challenge of getting a computer to solve a problem without explicitly programming it. This challenge calls for an automatic system whose input is a high-level statement of a problem’s requirements and whose output is a working program that solves the problem. Paraphrasing Arthur Samuel (1959), this challenge concerns, ``How can computers be made to do what needs to be done, without being told exactly how to do it?''''
+
+Key Differences
+Albeit different in motivation, Genetic Programming is, in its essence, a modification of Genetic Algorithms, which has been adapted to work with specimen represented as tree-like structures.
+
+With representation being a first practical difference, definitions of modified genetic operators follow suit.
+
+Note: for convenience, all examples of genetic parameters shall be presented on Behavior Tree structures.
+
+Crossover is implemented to change one randomly selected node from each parent with each other to produce two children [1]. Figures 3 and 4([adapted from 2]) illustrate the process: at first, two nodes are selected at random, one from each parent (Fig. 3). Figure 4 shows two new specimen, with exchanged subtrees.
+% image(s) here
+Mutation is defined in two ways: one is rather similar to its counterpart in Genetic Algorithm (and we’ll call that micromutation). The other, called macromutation (or ``Headless Chicken'' [1]) in an entirely new way of introducing variance to a population.
+
+Micromutation consists of randomly selecting a node, and changing its parameters (from an appropriate range). Figure 5 shows the example process of micromutation.
+
+Macromutation, however, is implemented by replacing a random node with randomly-generated tree, limited in depth by the maximum tree depth ([2]). Figure 6 shows an example of macromutation.
+
+% image
