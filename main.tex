@@ -1,0 +1,39 @@
+%        File: report.tex
+%     Created: Tue Jun 09 02:00 PM 2015 C
+% Last Change: Tue Jun 09 02:00 PM 2015 C
+%
+\documentclass[12pt]{scrreprt}
+\usepackage[utf8x]{inputenc}
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\begin{document}
+% Title Page
+\author{Miłosz Mazur}
+\title{Cooperation Evolved}
+\subtitle{Behavior Trees evolution by means of Genetic Programming}
+\maketitle
+
+
+\newpage
+% Abstract and other obligatory things
+\chapter*{Abstract}
+Behavior Trees are a method for AI programming that consists of a tree of hierarchical nodes controlling the flow of agent's decision making. They have proven, while being a pretty straightforward means to implement an AI, to be incredibly powerful way of obtaining autonomous agents, both due to a fact that the development can be iterable (one can start with implementing simple behavior and gradually improve the tree by adding and modifying nodes and branches) and allowing for, so to say, ``fallback tactics'', should the currently executed action fail.  Born in the game industry, they have since gained fair amount of popularity in other domains, including robotics.
+     Evolutionary algorithms, developed in John Holland’s Adaptation in Natural and Artificial Systems (1975), have been adapted for use in a vast variety of different problems, including optimisation issues and decision handling, often through introducing serious changes to both the algorithm structure and data structures used. Arguably, one of the most valuable modifications was Genetic Programming, popularised through works of John Koza (most notably Genetic Programming: On the Programming of Computers by Means of Natural Selection, 1992).
+
+     This project is an attempt to combine the two subjects, resulting in a way to automatically produce well-performing behavior trees, ready to use when autonomy and certain performance level consistency is required.
+
+     The environment used to conduct the simulations will be based on FRAIL, an in-house project of Wroclaw’s University of Technology. Developed to ease the process of AI testing for designers and game developers, it has since been adapted for the purpose of genetic calculations. Further modifications are required, however, due to specific focus of the project.
+
+\chapter*{Acknowledgements}
+
+\tableofcontents
+
+%Introduction - load in the summary.tex file
+\chapter{Introduction}
+\input{chapters/intro}
+
+\chapter{Background}
+\input{chapters/background}
+
+% \bibliography{test} % load in the info produced from test.bib
+\end{document}
