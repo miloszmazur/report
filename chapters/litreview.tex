@@ -22,7 +22,7 @@ Consider the task of getting to a room through the door. For this, a behavior tr
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.5]{btexample}
-\caption{An example behavior tree}
+\caption{An example Behavior Tree}
 \label{fig:x btexample}
 \end{figure}
 \newpage
@@ -39,8 +39,7 @@ In case when the door is already open, Selector 1 will go to node 2 (Sequence) a
 
 In case when the door is closed, but not locked, Selector 1 will go to node 2 as well, but since Condition 3 will fail, next node evaluated will be Sequence 6. After moving to the door (Action 7) we first(Sequence 9) confirm that the door is, in fact, unlocked (Condition 10) and proceed to open it and move to the room (Actions 11 and 12). After returning from Sequence 9 (with Success) and Selector 8 (since 9 returned Success), it will proceed to closing the door (Action 16).
 
-Finally,  if the door is both closed AND locked, Selector 1 will go to node 2 first, but since Condition 3 will fail, next node evaluated will be Sequence 6. After moving to the door (Action 7) and finding out that the door is locked (Condition 10), we will go straight to Sequence 13, first smashing the door (Action 14), then moving to the room (Action 15) and eventually, after returning from nodes 13 and 8, closing the door (Action 16).
-za
+Finally, if the door is both closed AND locked, Selector 1 will go to node 2 first, but since Condition 3 will fail, next node evaluated will be Sequence 6. After moving to the door (Action 7) and finding out that the door is locked (Condition 10), we will go straight to Sequence 13, first smashing the door (Action 14), then moving to the room (Action 15) and eventually, after returning from nodes 13 and 8, closing the door (Action 16).
 \section{Genetic Algorithms}
 \subsection{Motivation and History}
 Genetic Algorithms are a family of search algorithms directly inspired by Charles Darwin’s theory of evolution. His influential book, ``On the Origin of Species''(1859) led to a birth of the term ``survival of the fittest'' by Herbert Spencer (``Principles of Biology'', 1864), who understood it as \enquote{(\ldots) the preservation of favoured races in the struggle for life}.
