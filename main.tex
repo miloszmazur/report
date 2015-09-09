@@ -8,7 +8,7 @@
 \addbibresource{bibliography.bib}
 \usepackage{graphicx}
 \graphicspath{ {images/} }
-\usepackage[autostyle]{csquotes}  
+\usepackage[autostyle]{csquotes}
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{mathtools}
@@ -23,12 +23,11 @@
 \newpage
 \chapter*{Abstract}
 Behavior Trees are a method for AI programming that consists of a tree of hierarchical nodes controlling the flow of agent's decision making. They have proven, while being a pretty straightforward means to implement an AI, to be incredibly powerful way of obtaining autonomous agents, both due to a fact that the development can be iterable (one can start with implementing simple behavior and gradually improve the tree by adding and modifying nodes and branches) and allowing for, so to say, ``fallback tactics'', should the currently executed action fail.  Born in the game industry, they have since gained fair amount of popularity in other domains, including robotics.
-Evolutionary algorithms, developed in John Holland’s Adaptation in Natural and Artificial Systems (1975), have been adapted for use in a vast variety of different problems, including optimisation issues and decision handling, often through introducing serious changes to both the algorithm structure and data structures used. Arguably, one of the most valuable modifications was Genetic Programming, popularised through works of John Koza (most notably Genetic Programming: On the Programming of Computers by Means of Natural Selection, 1992).
+Evolutionary algorithms, largely popularized by John Holland \cite{hollandadaptation}, have been adapted for use in a vast variety of different problems, including optimisation issues and decision handling, often through introducing serious changes to both the algorithm structure and data structures used. Arguably, one of the most valuable modifications was Genetic Programming, popularised through works of John Koza (most notably \cite{kozagp}).
 
-This thesis documents the work on combining these two subjects in order to study and observe cooperative and adversitive behaviors between agents controlled by genetically generated Behavior Trees. By evolving two kinds of agents in two contrasting scenarios, this thesis attempts to study \textit{feasibility} of cooperation and its evolution. 
-% two sentences about scenarios
+This thesis documents the work on combining these two subjects in order to study and observe cooperative and adversitive behaviors between agents controlled by genetically generated Behavior Trees. Evolving two kinds of agents in two contrasting scenarios, this thesis focuses on \textit{feasibility} of cooperation and its evolution.  % two sentences about scenarios
 
-\chapter{Acknowledgements}
+%\chapter{Acknowledgements}
 \tableofcontents
 \chapter{Introduction}
 \input{chapters/intro}
@@ -49,4 +48,5 @@ This thesis documents the work on combining these two subjects in order to study
 \input{chapters/conclusions}
 
 \listoffigures
-\printbibliography\end{document}
+\printbibliography
+\end{document}
