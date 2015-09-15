@@ -1,5 +1,6 @@
 \section{Cooperation Spectrum}
 To learn how cooperative behaviors may influence success ratio in a particular task, the decision was made to first observe the evolution in case where agents work against one another, competing for a higher score. Only then, comparing the results with those of a cooperative case, conclusions regarding cooperation influence may be drawn.
+
 The scenarios were tested in parallel with each change, were it to complicate the problem or put emphasis on certain components of the solutions.
 
 The two scenarios shall be described in their dedicated sections below, focusing on key contrast points. Following, however, are the elements common to both cases.
@@ -12,14 +13,6 @@ Evaluation process of candidate solutions was made in the same environment, with
     \caption{A scematic of reference agent used in simulations.}
     \label{fig:x referenceagentdiagram}
 \end{figure}
-Finally, the three components that partook in the specimen grading were as follows:
-\begin{itemize}
-    \item \textbf{Number of markers gathered} - a number of resource markers gathered.
-    \item \textbf{Time to completion} - how much time did it take to finish the simulation (i.e. how much time has elapsed untill all the markers were claimed).
-    \item \textbf{Size of a Tree} - how many nodes were in the tree.
-\end{itemize}
-% mention the task? the role of each component in producing optimal tree? define desirable solution?
-% also, is it worth mentioning that the agents wouldn't know if the flag is claimed before getting there?
 \section{Competitive Scenario Specification}
 \subsection{Synopsis}
 Competitive case assumed the optimal solution to the problem is maximizing the agent's personal gain. The markers gathered were counted separably for each agent, thus turning the task into a race - evolutionary agent was forced to get to as many markers as possible before the reference agent would claim them for himself.
@@ -33,7 +26,7 @@ After initial testing, the scenario was modified to feature 7 resource markers (
     \label{fig:x scenario1topdown}
 \end{figure}
 
-\subsection{Fitness Function} % should it include a plot of a fitness function?
+\subsection{Fitness Function}
 The competitive scenario is effectively a zero-sum game. Considering that, the initial fitness value of the $i-th$ specimen in the population was a sum of $n$ markers gathered by an agent controlled by a tested tree, multiplied by a resource point constant $C_1$. This, however, wasn't feasible as a long-term solution. To introduce differentiability between the specimen scoring the same amounts of markers, a  factor of time in miliseconds multiplied by constant $C_2$ was then subtracted from the sum. Additionally, to coerce the algorithm into preferring smaller trees, a tree size factor with weight $C_3$ was further subtracted from this value. The finished formula for fitness function is presented on Equation \ref{eq:x scenario1fitness}.
 \begin{equation}
     \label{eq:x scenario1fitness}
@@ -54,8 +47,31 @@ f(i) = C_1 * (n + m) - (\frac{t}{C_2} + \frac{s}{C_3})
 \subsection{Success Criterion}
 In the cooperative case, the underlaying goal is to divide the markers between two agents in the most efficient way. To effectively operate, the desired outcome is achieving completion time shorter than the time it takes for the reference agent to complete his route. In other words, a successful solution wille be able to successfuly adapt itself to a potential parter's route and act accordingly. % reword to make it clearer?
 
+\section{Fitness Function Parameters}
+The aforementioned point constants of the fitness funtion, defined as follows:
+\begin{itemize}
+    \item $C_1$ - resource marker point value
+    \item $C_2$ - time factor weight
+    \item $C_3$ - tree size weight
+\end{itemize}
+Were tuned by using \textit{grid-search} algorithm with a number of possible values of $C_2$ and $C_3$. $C_1$, hovever, remained unchanged. The decision was made that, for the purposes of the competitive case, the number of resource markers should remain the deciding factor. % ask for clarification about that
+The values of the parameters after grid-search tuning are presented in table \ref{table:x tunedfitnessfunctionparameters}.
+\begin{table} [h]
+    \centering
+    \begin{tabular} {c c}
+        \hline \hline
+        Parameter Name & Parameter Value \\
+        \hline
+        $C_1$ - resource marker point value & 1000 \\
+        $C_2$ - time factor weight & 0.1 \\
+        $C_3$ - tree size weight & 100 \\
+    \end{tabular}
+    \caption{Selected Fitness Function Factor Weights}
+    \label{table:x tunedfitnessfunctionparameters}
+\end{table}
+
 \section{Genetic Programming Parameters in Experiments}
-After observing the results from a number of initial test runs as well as using \textit{grid-search} algorithm to help determine \textit{crossover rate}, \textit{mutation rate} and \textit{population size} parameters, the parameters used in the experiments are presented in table \ref{table:x selectedparameters}
+After observing the results from a number of initial test runs as well as using \textit{grid-search} algorithm to help determine \textit{crossover rate}, \textit{mutation rate} and \textit{population size} parameters, the parameters used in the experiments are presented in table \ref{table:x selectedgpparameters}.
 
 \begin{table} [h]
     \centering
@@ -73,13 +89,30 @@ After observing the results from a number of initial test runs as well as using 
         Starting Generation Maximum Tree Size & 30 \\
         Maximum Tree Depth & 6 \\
     \end{tabular}
-    \caption{Selected parameter values.}
-    \label{table:x selectedparameters}
+    \caption{Selected Genetic Programming parameter values.}
+    \label{table:x selectedgpparameters}
 \end{table}
 
-After a number inital runs, it was clear that keeping a maximum number of generations above one hundred served no function - there were no instances that did not converge before that point and following were long periods of stagnation or, even worse, loosing best specimen. The method responded positively to increasingly higher number of specimen in the generation: totalling at 200, this ensures a good variety of genetic material for the algorithm to make use of. Crossover and mutation rates were kept low due to the risk of destroying relatively low number of good specimen each generation. On the other hand, they could not have been set \textit{too low}, lest the algorithm would not explore the search space properly. It is worth pointing out that macromutation (``Headless Chicken'') was kept at extremely low occurence chance specifically for that reason - there weren't any instances suffering from too early convergence, something that macromutation would have been a remedy to. Choosing a 5\% value of tourney size ensured it would still be possible to get specimen with mid-range fitness value into the next generation while keeping the selection pressure relatively hight.
+After a number inital runs, it was clear that keeping a maximum number of generations above one hundred served no function - there were no instances that did not converge before that point and following were long periods of stagnation or, even worse, loosing best specimen. The method responded positively to increasingly higher number of specimen in the generation: totalling at 200, this ensures a good variety of genetic material for the algorithm to make use of. Crossover and mutation rates were kept low due to the risk of destroying relatively low number of good specimen each generation. On the other hand, they could not have been set \textit{too low}, lest the algorithm would not explore the search space properly. It is worth pointing out that macromutation (``Headless Chicken'') was kept at extremely low occurence chance specifically for that reason - there weren't any instances suffering from too early convergence, something that macromutation would have been a remedy to. Choosing a 5\% value of tourney size ensured it would still be possible to get specimen with mid-range fitness value into the next generation while keeping the selection pressure relatively high.
 
-Tree related parameters were chosen after a careful consideration of desirable feats in the initial generation. The Behavior Trees in experiments were built from three kinds of nodes: \textit{Selector}, \textit{Sequence} and an Action \textit{goToFlag(flagNumber)}. Generating the tree between 20 and 30 nodes would create a varied populations with different shaped trees, while maintaining decent complexity bound by maximum tree depth.
+Table \ref{table:x selectedbtparameters} presents selected parameters used during tree generation steps in the algorithm.
+\begin{table} [h]
+    \centering
+    \begin{tabular} {c c}
+        \hline \hline
+        Parameter Name & Parameter Value \\
+        \hline
+        Starting Generation Minimum Tree Size & 20 \\
+        Starting Generation Maximum Tree Size & 30 \\
+        Headless Chicken Generated Tree Minimum Size & 10 \\
+        Headless Chicken Generated Tree Maximum Size & 20 \\
+        Expected \textit{Action-to-Composite} node Ratio & 3:1 \\
+        Maximum Tree Depth & 6
+    \end{tabular}
+    \caption{Selected Behavior Tree generation parameter values.}
+    \label{table:x selectedbtparameters}
+\end{table}
+The tree related parameters were chosen after a careful consideration of desirable feats both in the initial generation as well as during rarely-observed macromutation. Generating the tree between 20 and 30 nodes would create a varied populations with different shaped trees, while maintaining decent complexity bound by maximum tree depth. The need for larger number of Actions in relation to Composite nodes was dictated by a simplicity of the task and in the interest of further coercing the algorithm to prefer simpler structures.
 \section{Exemplary Specimen}
 In this section, a sample specimen representation is presented and described. The listing below presents the text representation of a tree, while figure \ref{fig:x exemplaryspecimenscenario1} contains a (arguably) more human-readable form.
 \begin{lstlisting}
@@ -120,9 +153,9 @@ Sequence
     \label{fig:x exemplaryspecimenscenario1}
 \end{figure}
 
-This particular specimen was generated during one of competitive scenario experimentsand his evaluation placed it on value 5911. Knowing both the value of fitness value constants it can be proven that the specimen claimed 6 resource markers during a simulation lasting 8.7 seconds.
+This particular specimen was generated during one of competitive scenario experimentsand his evaluation placed it on value 5911. Knowing both the value of fitness value constants it can be proven that the specimen claimed 6 resource markers out of 7 possible.
 
-The tree has a very cluttered look and many unnecessary placed nodes, but the route should be clear: going from the top, it's going to visit the closest marker, which is the second one (sic!), then the third, proceeding to the fourth one (twice, in fact, but the second call will return instantly) and head for the last one, only to return to the fifth and sixth, probably meeting a reference agent nearby fifth marker. The rest of the nodes, as mentioned before, serve no function in this particular scenario. Unfortunately, the tree didn't follow the expected strategy (gaining a bit on each marker only to make a final push from sixth to seventh) instead opting to devise a new one. Although - as seen abole - the strategy of choice seems to be at least equally viable.
+The tree has a very cluttered look and many unnecessary placed nodes, but the route should be clear: going from the top, it's going to visit the closest marker, which is the second one (sic!), then the third, proceeding to the fourth one (twice, in fact, but the second call will return instantly) and head for the last one, only to return to the fifth and sixth, probably meeting a reference agent nearby fifth marker. The rest of the nodes, as mentioned before, serve no function in this particular scenario. Unfortunately, the tree didn't follow the expected strategy (gaining a bit on each marker only to make a final push from sixth to seventh) instead opting to devise a new one. Although - as seen above - the strategy of choice seems to be at least equally viable.
 \section{Optimisation Results}
 In this section, results of model cases (one from each scenario) will be presented. When analysing the results, three main components were kept in mind:
 \begin{itemize}
@@ -169,6 +202,6 @@ The size plot is intended to be considered and analysed together with the previo
     \label{fig:x cooperativetreesizeplot}
 \end{figure}
 
-Having seen the competitive scenario, the fitness plot in figure \ref{fig:x cooperativefitnessplot} might not appear as telling at first. Having produced a successful specimen in the first generation, the individual is instantly destroyed, its genes dilluted in the next generation. Another one, however, is produced as quickly as the fourth iteration of the algorithm. The value then remains virtually unchanged, oscillating only slightly to the last generation. Average fitness value curve reflects that progress well, with the oscillations starting only when the other one stabilizes. 
+Having seen the competitive scenario, the fitness plot in figure \ref{fig:x cooperativefitnessplot} might not appear as telling at first. Having produced a successful specimen in the first generation, the individual is instantly destroyed, its genes dilluted in the next generation. Another one, however, is produced as quickly as the fourth iteration of the algorithm. The value then remains virtually unchanged, oscillating only slightly to the last generation. Average fitness value curve reflects that progress well, with the oscillations starting only when the other one stabilizes.
 
-The feeling disappears, however, looking at the average tree size change presented in figure \ref{fig:x cooperativetreesizeplot}. On 30th generation, when the fitness value of the best specimen appears to enter stagnation, abrupt decrease of an average specimen node count begins. Over the next 50 iterations of the algoritm, the average size is reduced almost thrice - from 36 nodes to 13. 
+The feeling disappears, however, looking at the average tree size change presented in figure \ref{fig:x cooperativetreesizeplot}. On 30th generation, when the fitness value of the best specimen appears to enter stagnation, abrupt decrease of an average specimen node count begins. Over the next 50 iterations of the algoritm, the average size is reduced almost thrice - from 36 nodes to 13.

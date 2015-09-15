@@ -1,5 +1,10 @@
-\section{Recent Developements}
-\subsection{Genetic Programming}
-\subsection{Behavioral Trees}
-\subsection{Cooperation Between Artificial Agents}
-\section{Previous Research}
+The idea of evolving Behavior Trees using Genetic Programming method is not an entirely new concept. Similarity in representation of the specimen (both Behavior Trees and originally proposed by J. R. Koza in \cite{kozagp} lisp programs are represented as a tree structure) allowed for nigh painless adaptation of the GP algorithm, while the popularity of Behavior Trees as the AI representation of choice grew, exceeding game programming areas and venturing into previously unexplored use cases.
+
+Earlier implementations of this idea include evolving Behavior Tree agents for a turn strategy game DEFCON in \cite{defconbt}. In this paper, authors applied Genetic Programming method to evolve Behavior Trees acting as an artificial agent playing the game against existing AI developed by the creators of the game. The goal was to produce a tree able to beat the reference agent more then 50\% of time. Their experiments resulted with an evolved AI-bot able to beat the reference agent 55\% of the time in span of 200 games, thus proving the feasibility of the method.
+
+Another research applied the method to evolve a controller for DelFly Explorer UAV, where the task was to find and fly through a window placed in a simulated (and later on in the research, quite real) room \cite{ksheperthesis}. In his thesis, Scheper presented and used a framework to obtain an agent with 88\% success rate in a simulated environment and 54\% in a real one. Furthermore, he was able to reencounter and describe some of the \cite{defconbt} findings: namely, low number of generations to achieve a near-optimal solution, destructive power of mutation operation etc. This was also the first time that evolutionary Behavior Trees were introduced into Robotics area of research.
+
+Cooperation among artificial agents in multi-agent system environments is also a well-known subject, with multiple papers detailing state-of-the-art techniques \cite{cooperationstateoftheart}, \cite{cooperativeandcompetitivelearning}.
+%detail kinds of games? kinds of tasks?
+
+And lastly, there seems to be a constant, unsatiated need for more and more capable testing environments. Undoubtedly, modifying and fine-tuning features and code of the testing environment are the most sought-after features, this being the reason why so many researhers turn to in-house developed solutions. There were, however, a number of attempts of introducing a general-purpose testing environment (\cite{mason}, \cite{aisandbox}, \cite{frailweb}) or, at the very least, \textit{generalized} testing environment. Still, openess of the code and ease of modifications seem to prevail being the deciding factors. % mention familiarity with the environment?

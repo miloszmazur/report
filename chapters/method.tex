@@ -1,11 +1,11 @@
-\section{Motivation} % goal?
-Albeit the goal stated in the introduction chapter is focused at the method of obtaining quality agents, the motivation for such endavour must be kept in mind. It would be beneficiary for a number of use cases to obtain a system which, when provided with a sufficient description of an environment and capabilities of agents, could be used to produce ready to be implemented Behavior Trees capable of performing given assignments. Arguably, additional overhead due to implementing the environment \& agents specifications and task description must be taken into account when considering using such system, potentially making the method unfeasible in scenarios when the time is of essence. Even then however, one has to weight initial investment into such project against manually designing and adjusting the AI. % is this the right place to mentioned that in some previous research capable trees were found after arguably small number of iterations?
+\section{Motivation}
+Albeit the goal stated in the introduction chapter is focused at the method of obtaining quality agents, the motivation for such endavour must be kept in mind. It would be beneficiary for a number of use cases to obtain a system which, when provided with a sufficient description of an environment and capabilities of agents, could be used to produce ready to be implemented Behavior Trees capable of performing given assignments. Arguably, additional overhead due to implementing the environment \& agents specifications and task description must be taken into account when considering using such system, potentially making the method unfeasible in scenarios when the time is of essence. Even then however, one has to weight initial investment into such project against manually designing and adjusting the AI.
 
 Additionally, there is also one critical advantage to using evolutionary learning methods: the possibility of early termination through end condition. With the right fitness function the option to take an undeveloped tree as a template and improve it becomes perfectly possible. This can be useful in more sophisticated problems, when manual tuning will complement evolutionary method's solution. % to be perfectly honest, i'm not sure if this is the appropriate place to be making such claims - I mean discussing practical advantages.
 \section{Formulating a Task}
-In order to properly assess feasibility of the system in making, a common task had to be constructed to compare different variations of said system against each other. As mentioned before, scenario type chosen for this was a resource gathering.
+In order to properly assess feasibility of the system in making, a common task had to be constructed to compare different variations of said system against each other. As mentioned before, scenario type chosen for this was a resource gathering. % reference here
 
-The premise of this particular scenario was as follows: a certain amount of numbered resource markers (portrayed as flags in the simulation) were scattered across the simulated environment resembling a warehouse. The agents, starting from designated spawn points, are tasked with claiming as many of them as possible against a fixed time limit. \textit{Claiming} in this case was a process consisting of approaching a certain vicinity of a marker, at which point said marker was despawned and marked off as \textit{captured} by an agent initiating the claiming. Making the process instantaneous ensured that markers would be claimed on FCFS (\textit{First-Come, First-Served}) basis.
+The premise of this particular scenario was as follows: a certain amount of numbered resource markers (portrayed as flags in the simulation) were scattered across the simulated environment resembling a warehouse. The agents, starting from designated spawn points, are tasked with claiming as many of them as possible against a fixed time limit. \textit{Claiming} in this case was a process consisting of approaching a certain vicinity of a marker, at which point said marker was despawned and marked off as \textit{captured} by an agent initiating the claiming. Making the process instantaneous ensured that markers would be claimed on FCFS (\textit{First-Come, First-Served}) basis. Accompanying the evolutionary agent was the human-defined tree, filling a role of a rival - in a competitive scenario - or a partner - in the cooperative one.
 
 While the particulars were a subject to fine-tuning numerous times, Figure \ref{fig:x taskoverview} presents the initial schema of agents' and markers' spawn points.
 \begin{figure}[h]
@@ -30,4 +30,50 @@ On each iteration, two selected specimen have a chance (determined by crossover 
 \subsubsection{Mutation}
 Both available mutation methods were implemented: initially, only the possibility for the tree to undergo micromutation is tested - that is implemented by resetting randomly chosen node's parameters to a random values. However, each tree selected for a micromutation process (probability of which is dictated by a mutation rate) has a chance to undergo a macromutation process instead - that, in turn, is determined by a separate, macromutation rate. In this case, micromutation step is replaced entirely with ``Headless Chicken'' mutation.
 \subsubsection{Fitness function}
-Due to format of the thesis, used fitness function varied in different testing scenarios. Detailed explanations of each will be included in the appropriate sections of Results chapter.
+Due to the format of the experiments, where solutions to two different scenarios were explored separately, used fitness function varied between experiments. There is, hovever, a number of factors that were considered relevant to the fitness of the specimen that can be presented now. These were:
+\begin{itemize}
+    \item \textbf{Number of markers gathered} - a number of resource markers gathered.
+    \item \textbf{Time to completion} - how much time did it take to finish the simulation (i.e. how much time has elapsed untill all the markers were claimed).
+    \item \textbf{Size of a Tree} - how many nodes were in the tree.
+\end{itemize}
+The first characteristic ended up being relevant only in the competitive scenario, where agents were to compete in claiming the markers: the number of claimed resources was, in fact, the defining characteristic. The relevance of the two following features, however, was common to both cases: the best solution is expected to finish the task as close to the shortest time as possible, while pressuring the algorithm to keep decreasing the size of a tree was done in the interest of both readability (and, with that, ease of modification) and execution time.
+\section{Behavior Tree}
+The Behavior Trees in experiments were built from three kinds of nodes: \textit{Selector}, \textit{Sequence} and an Action \textit{goToFlag(flagNumber)}.
+
+\begin{lstlisting}
+actionGoToFlag(int identfier) % e [-1, 7]
+    if (identfier &==&  -1)
+        goToFurthestFlag()
+    else if (identfier &==& 0)
+        goToNearestFlag()
+    else
+        goToFlag(identfier)
+\end{lstlisting}
+
+% tutaj rzeczy o budowaniu etc.
+\section{Environment}
+\subsection{Introduction}
+\textbf{FRAIL} (Framework for AI Laboratories) is a platform developed in-house at Wroclaw's University of Technology (PWR) for purposes of testing artificial adversaries in shooter games. \cite{frailweb}
+
+As an in-house project, users were able to freely access and change the source code, modifying existing controllers or creating new ones. Since its launch, FRAIL has seen use as a didactic aid during Artificial Intelligence classes and bootstrap for various AI-related projects, including evaluation by a video game development and publishing company, Techland for internal use. % citation needed?
+
+In order to fully utilize the platform's capabilities, substantial changes have been made to FRAIL's engine in one of the previous projects, allowing for the entire process of Genetic Programming to be executed on the platform itself. A Behavior Tree implementation and representation related modules were taken from current version of FRAIL and the project was reverted to one of the earlier versions to reduce bloating. Genetic Programming module was implemented as a ``building block'' that could be placed on any map operating in ``Capture the Flag'' mode. Exploiting FRAIL's scripting behaviors and usage of RTTI (Run-Time Type Identification), a number of convenience changes were introduced to control the environment and algorithm parameters.
+\subsection{Map overview}
+The task planned for the agents can be described as a resource retrieval. To simulate this scenario, a map resembling a warehouse has been planned and prepared for use. Figure \ref{fig:x simmaprender} presents a 3D render of a finished map, while a top-down view, featured on Figure \ref{fig:x simmaptopdown} will be referred to further describe the design.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{frailmaprender}
+    \caption{A rendering of scenery}
+    \label{fig:x simmaprender}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.2]{frailmaptopdown}
+    \caption{A top-down view of the map}
+    \label{fig:x simmaptopdown}
+\end{figure}
+
+The map was designed with two to four agents in mind, with the possibility of scaling up when needed. Its shape is rectangular, measuring 80 on 56 simulation units. Over the middle section, 14 cuboid structures were placed symmetrically to act as storage containers / shelve-holding space, with access points along every edge. This placement allowed to make use of narrow alleys between containers in order to create potential conflict points, and positioning resources right next to them would hopefully allow for more faithful representation of a real-world resource gathering problem.
+% I'm not sure what exactly belongs here. For instance: I should note that introduction of GP to the platform was done beforehand, since I made only the GP part, it was my partner who integrated it within frail. There were no publications, however, since it was only a class project.
