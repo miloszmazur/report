@@ -45,7 +45,7 @@ f(i) = C_1 * (n + m) - (\frac{t}{C_2} + \frac{s}{C_3})
 \end{equation} % legend?
 
 \subsection{Success Criterion}
-In the cooperative case, the underlaying goal is to divide the markers between two agents in the most efficient way. To effectively operate, the desired outcome is achieving completion time shorter than the time it takes for the reference agent to complete his route. In other words, a successful solution wille be able to successfuly adapt itself to a potential parter's route and act accordingly. % reword to make it clearer?
+In the cooperative case, the underlaying goal is to divide the markers between two agents in the most efficient way. To effectively operate, the desired outcome is achieving completion time shorter than the time it takes for the reference agent to complete his route. In other words, a successful solution will be able to successfuly adapt itself to a potential parter's route and improve upon it in terms of time.
 
 \section{Fitness Function Parameters}
 The aforementioned point constants of the fitness funtion, defined as follows:
@@ -54,8 +54,8 @@ The aforementioned point constants of the fitness funtion, defined as follows:
     \item $C_2$ - time factor weight
     \item $C_3$ - tree size weight
 \end{itemize}
-Were tuned by using \textit{grid-search} algorithm with a number of possible values of $C_2$ and $C_3$. $C_1$, hovever, remained unchanged. The decision was made that, for the purposes of the competitive case, the number of resource markers should remain the deciding factor. % ask for clarification about that
-The values of the parameters after grid-search tuning are presented in table \ref{table:x tunedfitnessfunctionparameters}.
+Were tuned by using \textit{grid-search} algorithm with a number of possible values of $C_2$ and $C_3$. $C_1$, hovever, remained unchanged. The decision was made that, for the purposes of the competitive case, the number of resource markers should remain the deciding factor.
+The values of the parameters after grid-search tuning are presented in tables \ref{table:x tunedfitnessfunctionparameterscoop} and \ref{table:x tunedfitnessfunctionparameterscomp}.
 \begin{table} [h]
     \centering
     \begin{tabular} {c c}
@@ -66,10 +66,24 @@ The values of the parameters after grid-search tuning are presented in table \re
         $C_2$ - time factor weight & 0.1 \\
         $C_3$ - tree size weight & 100 \\
     \end{tabular}
-    \caption{Selected Fitness Function Factor Weights}
-    \label{table:x tunedfitnessfunctionparameters}
+    \caption{Selected Fitness Function factor weights for Cooperative Scenario}
+    \label{table:x tunedfitnessfunctionparameterscoop}
 \end{table}
 
+
+\begin{table} [h]
+    \centering
+    \begin{tabular} {c c}
+        \hline \hline
+        Parameter Name & Parameter Value \\
+        \hline
+        $C_1$ - resource marker point value & 1000 \\
+        $C_2$ - time factor weight & 0.01 \\
+        $C_3$ - tree size weight & 10 \\
+    \end{tabular}
+    \caption{Selected Fitness Function factor weights for Competitive Scenario}
+    \label{table:x tunedfitnessfunctionparameterscomp}
+\end{table}
 \section{Genetic Programming Parameters in Experiments}
 After observing the results from a number of initial test runs as well as using \textit{grid-search} algorithm to help determine \textit{crossover rate}, \textit{mutation rate} and \textit{population size} parameters, the parameters used in the experiments are presented in table \ref{table:x selectedgpparameters}.
 
@@ -157,17 +171,20 @@ This particular specimen was generated during one of competitive scenario experi
 
 The tree has a very cluttered look and many unnecessary placed nodes, but the route should be clear: going from the top, it's going to visit the closest marker, which is the second one (sic!), then the third, proceeding to the fourth one (twice, in fact, but the second call will return instantly) and head for the last one, only to return to the fifth and sixth, probably meeting a reference agent nearby fifth marker. The rest of the nodes, as mentioned before, serve no function in this particular scenario. Unfortunately, the tree didn't follow the expected strategy (gaining a bit on each marker only to make a final push from sixth to seventh) instead opting to devise a new one. Although - as seen above - the strategy of choice seems to be at least equally viable.
 \section{Optimisation Results}
-In this section, results of model cases (one from each scenario) will be presented. When analysing the results, three main components were kept in mind:
+In this section, results of model cases (one from each scenario) will be presented. When analysing the results, following factors were considered:
 \begin{itemize}
-    \item The shape of the algorithms' best specimen fitness value and its relation to average fitness value in current iteration.
-    \item An average size of a tree in the current population.
+    \item The shape of the algorithms' best specimen fitness value curve and its relation to average fitness value one.
+    \item An average size of a tree troughout the iterations.
+    \item Difference in node count from a \textit{minimal} successful solution % reword? clear enough?
     \item A number of iterations needed for the best specimen to achieve success.
 \end{itemize}
-The shape of fitness plots indicate the general state and health of the Genetic Programming algorithm. While the plot indicating top fitness value in the population is certainly important (the success measure is directly tied to a top specimen, after all), it's the average fitness value in the population that provides the much needed information on population growth, stagnation or even oscillations, indicating local plateaus.
+The shape of fitness plots indicate the general state and health of the Genetic Programming algorithm. While the plot indicating top fitness value in the population is certainly important (the success measure is directly tied to a top specimen), it's the average fitness value in the population that provides the much needed information on population growth, stagnation or even oscillations, indicating local plateaus.
 
-The average size of a tree is also a useful indicator of a general perceived value of the generation: while larger trees are not neccessairly always worse (since the execution time is virtually neglible), they most definietly contain needless constructs. Apart from being nigh unreadable, disregarding tree size would certainly result in need of introducing some kind of post-processing to prune a number of never-to-be-executed branches.
+The average size of a tree is also a useful indicator of a general perceived value of the generation: while larger trees are not neccessairly always worse (since the execution time of a tree is virtually neglible), they most definietly contain needless constructs. Apart from being nigh unreadable, disregarding tree size would certainly result in need of introducing post-processing to prune a number of never-to-be-executed branches.
 
-Finally, the number of iterations needed to produce a first solution that is deemed ``successful''. Looking into the matter from the user's perspective,the only feasible characteristic is the speed of achieving a \textit{fit} specimen, able to deal with the task at hand.
+The task was designed in a way allowing for the optimal solutions to be relatively simple in structure: such solution, written manually, would be composed of no more than 7 (in competitive scenario) or 5 nodes (in cooperative one). These solutions would be deemed \textit{minimal}. Since tree size is one of the factors determining a specimen fitness, it is reasonable to expect the algorithm to converge on a tree that is close to that size.
+
+Finally, the number of iterations needed to produce a first solution that is deemed ``successful''. Looking into the matter from the user's perspective,the only feasible characteristic is the speed of achieving a \textit{fit} specimen, able to deal with the task at hand with given restraints.
 
 Figure \ref{fig:x competitivefitnessplot} presents a plot of the highest fitness value and average fitness in the population in respect to iteration in the competitive scenario. Figure \ref{fig:x competitivetreesizeplot}, hovever, illustrates the change of average tree size in the population in the course of the algorithm's run in the same scenario.
 
