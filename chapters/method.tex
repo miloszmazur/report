@@ -29,7 +29,7 @@ The selection method of choice is a regular implementation of Tournament Selecti
 \subsubsection{Crossover}
 On each iteration, two selected specimen have a chance (determined by crossover rate parameter) to produce two children which will be put into the next generation instead of them. The crossover itself is a single-point version, implemented as a exchange of randomly selected nodes (one from each tree) without minding their type nor location.
 \subsubsection{Mutation}
-Genetic Programming framework offers two methods of mutation: micro- and macromutation, explained in chapter \ref{chapter_bacground}. Both were implemented: initially, only the possibility for the tree to undergo micromutation is tested - that is implemented by resetting randomly chosen node's parameters to a random values. However, each tree selected for a micromutation process (probability of which is dictated by a mutation rate) has a chance to undergo a macromutation process instead - that, in turn, is determined by a separate, macromutation rate. In this case, micromutation step is replaced entirely with ``Headless Chicken'' mutation.
+Genetic Programming framework offers two methods of mutation: micro- and macromutation, explained in chapter \ref{chapter_background}. Both were implemented: initially, only the possibility for the tree to undergo micromutation is tested - that is implemented by resetting randomly chosen node's parameters to a random values. However, each tree selected for a micromutation process (probability of which is dictated by a mutation rate) has a chance to undergo a macromutation process instead - that, in turn, is determined by a separate, macromutation rate. In this case, micromutation step is replaced entirely with ``Headless Chicken'' mutation.
 \subsubsection{Fitness function}
 Due to the format of the experiments, where solutions to two different scenarios were explored separately, used fitness function varied between experiments. There is, however, a number of factors that were considered relevant to the fitness of the specimen that can be presented now. These were:
 \begin{itemize}
@@ -45,14 +45,16 @@ Specimen were built from only three kinds of nodes: \textit{Selector}, \textit{S
 
 Furthermore, \textit{goToFlag} Action provided additional two variants, tied with the identifier argument. While values of 1-7 would select one of the existing markers, values $-1$ and $0$ held special meaning: -1 would set the course on the furthest \textit{available} (non-claimed) marker, while the latter would select nearest one. This was done in order to see if that level of abstraction would be preferable in certain situations, acting with critical timing against unchanging reference agent. The listing below presents pseudocode algorithm of \textit{goToFlag} Action.
 
-\begin{lstlisting}
-actionGoToFlag(int identifier) % e [-1, 7]
-    if (identifier &==&  -1)
+\begin{lstlisting}[language=C++]
+actionGoToFlag(int identifier) //checks if identifier is in range [-1, 7] before
+{
+    if (identifier ==  -1)
         goToFurthestFlag()
-    else if (identifier &==& 0)
+    else if (identifier == 0)
         goToNearestFlag()
     else
-        goToFlag(identifier)
+        goToFlag(identifier - 1)
+}
 \end{lstlisting}
 \section{Environment}
 \subsection{Introduction}

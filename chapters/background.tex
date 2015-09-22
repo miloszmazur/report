@@ -1,6 +1,6 @@
 \section{Behavior Trees}
 \subsection{Synopsis}
-Behavior Trees are Directed Acyclic Graphs that are used to represent an agent's decision process. From a syntax perspective, they're usually represented as a tree structure constructed from multiple nodes representing various internal constructs. Each node has a return status, commonly: Success, Failure or Running, used to determine a result (or lack of one, in case of Running status) of the node's execution \cite{ksheperthesis}.  In turn, said nodes' function is to either redirect a flow of a process or to represent a decision resulting from one.
+Behavior Trees are Directed Acyclic Graphs that are used to represent an agent's decision process. From a syntax perspective, they're usually represented as a tree structure constructed from multiple nodes representing various internal constructs. Each node has a return status, commonly: Success, Failure or Running, used to determine a result (or lack of one, in case of Running status) of the node's execution \cite{btfornextgenai}.  In turn, said nodes' function is to either redirect a flow of a process or to represent a decision resulting from one.
 Consequently, we can derive three kinds of these nodes:
 \begin{itemize}
     \item \textbf{Action} nodes reside exclusively in leaves of a tree and are, as mentioned above, a resulting decision, a set of instructions for the agent to execute. The degree of granularity is arbitrary - one can imagine both \textit{Move Forward by 1 meter} and \textit{Perform Engine Repair} to be examples of Action nodes, with relevant code belonging to Agent's implementation. Alternatively, Action nodes might point to further decision processes: for instance, \textit{Perform Engine Repair} could be a complicated procedure with separate Behavior Tree, detailing diagnostic and the actual repair.
@@ -12,7 +12,7 @@ While selection of  Action and Condition nodes are (often) entirely implementati
 \subsection{Composite Node Types}
 In order to remain relatively simple to work with while maintaining versatility, flow-control nodes are possible to employ. These come in many varieties and often can be said to mimic (or at least resemble in action) logic functions.
 \begin{itemize}
-    \item \textbf{Sequence} nodes will test its child nodes in defined order -  executing them from left to right is the common practice, although introducing a different metric (for example, task priority) is possible \cite{ksheperthesis}. Sequence node will return Success if and only if all of its children return Success, and Failure otherwise. In this, Sequence works identically to logical AND function.
+    \item \textbf{Sequence} nodes will test its child nodes in defined order -  executing them from left to right is the common practice, although introducing a different metric (for example, task priority) is possible \cite{btfornextgenai}. Sequence node will return Success if and only if all of its children return Success, and Failure otherwise. In this, Sequence works identically to logical AND function.
     \item \textbf{Selector} node, for all intents and purposes, is a operational opposite of Sequence. Execution order remains unchanged (along with all modification possibilities), but Selector node will return Success immediately when one of its children return Success and Failure only when all of its children return Failure. Analogically, Selector is a Behavior Tree counterpart to logical OR function.
 \end{itemize}
 Finally, \textbf{Parallel-One} and \textbf{Parallel-All} nodes introduce concurrence to Behavioral Trees: execution of all child tasks is simultaneous, the node returning when any (in case of Parallel-One) task or all of them (Parallel-All) return Success.
@@ -20,10 +20,10 @@ Finally, \textbf{Parallel-One} and \textbf{Parallel-All} nodes introduce concurr
 \subsection{Behavior Tree Example}
 Consider the task of getting to a room through the door. For this, a behavior tree depicted in Figure \ref{fig:x btexample} was proposed (adapted from \cite{ksheperthesis}):
 \begin{figure}[h]
-\centering
-\includegraphics[scale=0.5]{btexample}
-\caption{An example Behavior Tree}
-\label{fig:x btexample}
+    \centering
+    \includegraphics[scale=0.5]{btexample}
+    \caption{An example Behavior Tree}
+    \label{fig:x btexample}
 \end{figure}
 \newpage
 In the above tree consider:
@@ -48,7 +48,7 @@ Over the years, many scientists proceeded to capitalize on that phrase, designin
 
 Genetic Algorithms' births and growth into a popular search heuristic was largely due to John Holland's ``Adaptation in Natural and Artificial Systems''. In his book, he proposed a method to apply an evolutionary process in nature to artificial systems by genetically breeding populations of fixed-length character strings (posing as solutions to a given problem) using Darwinian natural selection model and genetic operation of recombination. He was also able to conclude the following about the model problem in the book (a multi-armed slot machine)\cite{kozagp}:
 \begin{quote}
-   (\ldots) the genetic algorithm is a near optimal approach to adaptation in that it maximizes expected overall average payoff when the adaptive process is viewed as a multi-armed slot machine problem requiring an optimal allocation of future trials given currently available information.
+    (\ldots) the genetic algorithm is a near optimal approach to adaptation in that it maximizes expected overall average payoff when the adaptive process is viewed as a multi-armed slot machine problem requiring an optimal allocation of future trials given currently available information.
 \end{quote}
 In following years, and after introducing some modifications, the method evolved into a shape summarized below.
 \subsection{Synopsis}
@@ -80,7 +80,7 @@ Selection process is a entry point to the recombination process - it's here wher
 
 In \textbf{Fitness-Proportionate Selection}, also known as \textbf{Roulette selection} \cite{Luke2013Metaheuristics} specimen are selected in proportion to their fitness: solutions with higher fitness value associated have a bigger chance of being selected. Not only does it introduce an element or chance, in contrast to methods like \textbf{Elitism} or \textbf{Truncation Selection} \cite{Luke2013Metaheuristics}, where one simply copied \textit{n} best specimen (repeating that operation until new population was the right size), it also doesn't restrict the option of ``weak'' individual being selected to carry through genetic material that potentially can prove to be interesting in future. Using Roulette Selection, however, one makes a big assumption:
 \begin{quote}
-They presume that the actual fitness \textit{value} of an individual really means something important. But often we choose a fitness function such that higher ones are ``better'' than smaller ones, and don't mean to imply anything more.
+    They presume that the actual fitness \textit{value} of an individual really means something important. But often we choose a fitness function such that higher ones are ``better'' than smaller ones, and don't mean to imply anything more.
 \end{quote} \cite{Luke2013Metaheuristics}.
 This can pose a significant problem during later iterations of the algorithm, when most of the solutions may have similar fitness values, effectively turning a theoretically fitness-proportional choice to strategy only slightly better then random one.
 
@@ -109,13 +109,19 @@ Unlike other evolution-inspired techniques, in GA selected individuals are not a
 In some cases crossover might prove to be quite a destructive force. Namely, it has to do with \textit{linkage} (or \textit{epistasis}) between elements in specimen representation \cite{Luke2013Metaheuristics}. Elements that are feasible in current setting might, and will be, broken up, and one can easily imagine crossover operation producing a number of ``broken'' or otherwise flawed individuals.
 
 \subsection{Mutation}
-Mutation operation serves as an assurance that the algorithm won't converge prematurely by introducing that much-needed variance. It's usually performed on a whole population, where each individual has a chance of his genes randomly changing (provided by \textbf{mutation rate}). Depending on the actual representation of the chromosome, popular implementations include a bit-flip (in case of boolean strings, for example) or replacing a value with one randomly generated with given distribution.
+Mutation operation serves as an assurance that the algorithm won't converge prematurely by introducing that much-needed variance. It's usually performed on a whole population, where each individual has a chance of his genes randomly changing (provided by \textbf{mutation rate}). Depending on the actual representation of the chromosome, popular implementations include a bit-flip (in case of boolean strings, for example) or replacing a value with one randomly generated with given distribution. Figure \ref{fig:x mutationexample} presents the process of mutation on a fixed-lenght bit string. In this particular example, two flips are executed.
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.5]{mutation}
+    \caption{Mutation Example}
+    \label{fig:x mutationexample}
+\end{figure}
 \section{Genetic Programming}
 \subsection{Motivation}
 John R. Koza, creator of Genetic Programming, wrote the following on motivation and scope of this field \cite{kozagp}:
 \begin{quote}
     The genetic programming paradigm continues the trend of dealing with the problem of representation in genetic algorithms by increasing the complexity of the structures undergoing adaptation. In particular, the structures undergoing adaptation in genetic programming are general, hierarchical computer programs of dynamically varying size and shape.(\ldots)
-I claim that the process of solving these problems can be reformulated as a search for a highly fit individual computer program in the space of possible computer programs. When viewed in this way, the process of solving these problems becomes equivalent to searching a space of possible computer programs for the fittest individual computer program.
+    I claim that the process of solving these problems can be reformulated as a search for a highly fit individual computer program in the space of possible computer programs. When viewed in this way, the process of solving these problems becomes equivalent to searching a space of possible computer programs for the fittest individual computer program.
 \end{quote}
 
 \subsection{Key Differences}
