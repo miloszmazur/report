@@ -126,6 +126,7 @@ Table \ref{table:x selectedbtparameters} presents selected parameters used durin
     \label{table:x selectedbtparameters}
 \end{table}
 The tree related parameters were chosen after a careful consideration of desirable feats both in the initial generation as well as during rarely-observed macromutation. Generating the tree between 20 and 30 nodes would create a varied populations with different shaped trees, while maintaining decent complexity bound by maximum tree depth. The need for larger number of Actions in relation to Composite nodes was dictated by a simplicity of the task and in the interest of further coercing the algorithm to prefer simpler structures.
+\newpage
 \section{Exemplary Specimen}
 In this section, a sample specimen representation is presented and described. The listing below presents the text representation of a tree, while figure \ref{fig:x exemplaryspecimenscenario1} contains a (arguably) more human-readable form.
 \begin{lstlisting}
@@ -200,9 +201,9 @@ Figure \ref{fig:x competitivefitnessplot} presents a plot of the highest fitness
     \caption{An average tree size with respect to iteration plot in the competitive scenario.}
     \label{fig:x competitivetreesizeplot}
 \end{figure}
-The algorithm's run in this particular case started on a relatively high note, with the best specimen claiming 4 markers for himself. In the next few iterations, best fitness achieved increased, then oscillated around 4200 value, to finally stabilize on a value closer to 5000. Up to this point, one can see the average fitness in the generation rising, indicating that, while there were no radical increases in value, the algorithm is producing more and more feasible options. Then, surely due to particularly good mutation or crossover, a breakthrough is made and the population achieves its first successful specimen. This one, however, is instantly lost, having not been copied over to the next generation. The curve then starts oscillating heavily, with the algorithm producing further successful specimen only to lose them few cycles later. Finally, around iteration 50 mark, the best specimen is kept for a little longer. Note that the first successful individual marked the decline in average fitness growth. That proves that by this time, the population has been saturated with useful gene structures.
+The algorithm's run in this particular case started on a relatively high note, with the best specimen claiming 4 markers for himself. In the next few iterations, best fitness achieved increased, then oscillated around 4200 value, to finally stabilize on a value closer to 5000. Up to this point, one can see the average fitness in the generation rising, indicating that, while there were no radical increases in value, the algorithm was producing more and more feasible candidates. Then, surely due to particularly good mutation or crossover operations, a breakthrough was made and the population achieved first successful specimen in the run. This one, however, was instantly lost, having not been copied over to the next generation. The curve then starts oscillating heavily, with the algorithm producing further successful specimen only to lose them few cycles later. Finally, around iteration 50 mark, the best specimen was kept for a longer duration. Note that the first successful individual marked the decline in average fitness growth, meaning that by that time, the population has been saturated with useful gene structures.
 
-The size plot is intended to be considered and analyzed together with the previous one. Having done that, one can observe that with the first successful specimen produced, the population started intensively increasing in node count. Having achieved large enough pool of fit solutions, size started to be the differentiating factor, successfully lowering the number. This is the perfect example of larger trees being promoted in the initial stages (since they have a larger chance of containing a useful node structure), but having their value decreased as the useful genes from them are passed into further generations. This also poses an interesting question - whether the first found successful specimen should be accepted, or will processing more generations rewarding?
+The size plot is intended to be considered and analyzed together with the fitness values. Having done that, one can observe that with the first successful specimen produced, the population started intensively increasing in node count. Having achieved large enough pool of fit solutions, size started to be the differentiating factor, successfully lowering the number. This is the perfect example of larger trees being promoted in the initial stages (since bigger trees have a higher chance of containing a useful node structure combination), but having their value decreased as the useful genes from them are passed into further generations. This also poses an balance question - whether the first found successful specimen should be accepted, or will processing more generations rewarding?
 
 \begin{figure}[h]
     \centering
@@ -218,10 +219,29 @@ The size plot is intended to be considered and analyzed together with the previo
     \label{fig:x cooperativetreesizeplot}
 \end{figure}
 
-Having seen the competitive scenario, the fitness plot in figure \ref{fig:x cooperativefitnessplot} might not appear as telling at first. Having produced a successful specimen in the first generation, the individual is instantly destroyed, its genes diluted in the next generation. Another one, however, is produced as quickly as the fourth iteration of the algorithm. The value then remains virtually unchanged, oscillating only slightly to the last generation. Average fitness value curve reflects that progress well, with the oscillations starting only when the other one stabilizes.
+Compared to the competitive scenario, the fitness plot in figure \ref{fig:x cooperativefitnessplot} presents much \textit{calmer} best fitness curve with no sudden changes in value, although with oscillations in abundance. Having produced a successful specimen in the first generation, the individual is instantly destroyed, its genes diluted in the pool of next generation. Another one, however, is produced as quickly as the fourth generation of the algorithm. The best specimen value starts oscillating with low amplitude, stabilizing after a good while. Average fitness value curve reflects that progress well, with the oscillations starting only when the other one stabilizes (again, marking the point where the population is saturated).
 
-The feeling disappears, however, looking at the average tree size change presented in figure \ref{fig:x cooperativetreesizeplot}. On 30th generation, when the fitness value of the best specimen appears to enter stagnation, abrupt decrease of an average specimen node count begins. Over the next 50 iterations of the algorithm, the average size is reduced almost thrice - from 36 nodes to 13.
+The progress of the population in the cooperative scenario is definitely more visible on figure \ref{fig:x cooperativetreesizeplot}. On 30th generation, when the fitness value of the best specimen appears to enter stagnation, abrupt decrease of an average specimen node count begins. Over the next 50 iterations of the algorithm, the average size is reduced almost thrice - from 36 nodes to 13.
 
-\section{Statistical Comparison}
+While the average tree size of the population is an important indicator of the algorithm's overall health and progress (in a sense, since the progress can be presented as the ratio of current node count to the \textit{minimal solution} node count), it's the size of a best specimen tree that's important for the potential end-user. Figure \ref{fig:x competitivebestspecimentreesizeplot} presents the changing of the size of the best solution with regards to generation from one of the later experiments with increased tree size factor weight.
 
-\section{Comparison Grounds}
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.4]{bestspecimentreesizecomp}
+    \caption{A best specimen tree size with respect to iteration plot in the competitive scenario.}
+    \label{fig:x competitivebestspecimentreesizeplot}
+\end{figure}
+
+The relation between the size of the best specimen tree and the average tree size of the population can be compared to one between best specimen fitness value and average fitness of the population - the first few generations are a space for experiments, where size itself isn't more important than ever decreasing time. After coming up with a sufficiently big pool of good combinations of nodes, the decrease in size begins. 28 nodes is established as a size as early as 20th iteration, staying that way till generation 52, where the plateau is broken and, through a 20-generation oscillation cycle, new local optimum is reached.
+
+Figure \ref{fig:x cooperativebestspecimentreesizeplot} presents identical changes, but experienced in cooperative scenario.
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.5]{bestspecimentreesizecoop}
+    \caption{A best specimen tree size with respect to iteration plot in the cooperative scenario.}
+    \label{fig:x cooperativebestspecimentreesizeplot}
+\end{figure}
+The decrease in node count in cooperative scenario is much more sudden - tree size had 10 times more influence on the fitness value of the specimen compared to competitive case (Table \ref{table:x tunedfitnessfunctionparameterscoop} for cooperative case, Table \ref{table:x tunedfitnessfunctionparameterscomp} for competitive case). With that large influence from the start, it is not unusual that the node count drops twice between the first and second generation. The decrease is sustained through the further generations (not without few slip-ups, when the best specimen was dropped from the population) to stabilize on 19th iteration.
+%\section{Statistical Comparison}
+
+%\section{Comparison Grounds}
