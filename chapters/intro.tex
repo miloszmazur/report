@@ -1,17 +1,24 @@
 \section{Thesis Goal}
 The main goal of the thesis is to answer the question:
-``How selfish and utilitarian behaviors between artificial agents influence the performance in multi-agent task-oriented environments?'' % efficiency?
+``How selfish and utilitarian behaviors between artificial agents influence the learning efficiency in task-oriented environments?'' % learning quality? Learning algorithm performance?
+
 \section{Thesis Research Goals}
+In course of answering the question, we plan on completing following additional research goals:
+
 \begin{itemize}
     \item Provide a platform that can be used to automatically generate and evaluate artificial agents.
     \item Measure and find a way to deal with the impact of the initial generation.
     \item Measure the effect cooperative behaviors had on task execution.
 \end{itemize}
+
+While a part of them is a requirement to gaining the knowledge needed to reach the answer for the main question of the thesis (including designing proper experiments, performing them and formulating a valid theory for comparison), we also plan to take a closer look on the mechanisms behind implementing Genetic Programming with Behavior Tree specimen representation. Specific challenges in doing that are discussed with the section below, and we deem it beneficiary to improve the integration.
+
 \section{Challenge}
-The true challenge in presented work is to provide a valid way to compare two drastically different approaches to the task in order to prove whether changing said approach is tied to a change in efficiency of the task's execution. Before the grounds for the comparison can be defined, a common goal must be stated for agents in both approaches, thus formulating aforementioned task.
+We seek to observe how learning of the agent changes depending on its approach. In order to truly compare learning selfish and utilitarian approaches, we must devise certain comparison grounds, based on a performance of the algorithm in a given case. Before the exact features on which the efficiency of the algorithm will be judged, a common goal must be stated for agents in both approaches; designing that goal, grading the specimen and the grounds on which we compare the two approaches are all problems we deem worth exploring.
 
-The technical challenge lies in handling the incorporation of Genetic Programming to the problem. Evolving Behavior Trees will be subjected to various transmutations, some of which could potentially destroy some of them. The task here is to minimize the occurrence of this happening.
+The technical challenge lies in handling the incorporation of Genetic Programming to the problem. The integration, seemingly seamless, has still some areas in need of polish. Evolving Behavior Trees are subjected to various transmutations, some of which could potentially destroy prospective specimen. The goal is to minimize the occurrence of this happening.
+
 \section{Thesis Structure Overview}
-In order to provide the answer to a question stated in the thesis goal, following chapter will first provide essential background information on technologies used in the thesis. Chapter \ref{chapter_relatedwork} will complement that information with recent developements and related work in appropriate areas. Chapter \ref{chapter_method} will acquaint the reader with the platform the research was done on, as well as the map used in specimen evaluation, detailed description of research conditions, restraints put on the environment and actually combining the two technologies described in previous chapters. The last chapter presents the details of experiments done as part of the thesis, as well as their results.
+In order to provide the answer to a question stated in the thesis goal, following chapter will first provide essential background information on technologies used in the thesis. Chapter \ref{chapter_relatedwork} will complement that information with recent developements and related work in appropriate areas. Chapter \ref{chapter_method} will acquaint the reader with the platform the research was done on, as well as the map used in specimen evaluation, detailed description of research conditions, restraints put on the environment and actually combining the two technologies described in previous chapters. Chapter \ref{chapter_results} presents the details of experiments done in course of the thesis, as well as their results.
 
-The attempt to answer the main research question of this thesis is then presented in conclusion, along with ideas for possible future research.
+In the last chapter, we attempt to provide the answer for the question we stated in this chapter, as well as propose possible directions of further research.
