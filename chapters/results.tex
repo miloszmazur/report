@@ -26,7 +26,7 @@ After initial testing, the scenario was modified to feature 7 resource markers (
 \end{figure}
 
 \subsection{Fitness Function}
-The competitive scenario is effectively a zero-sum game: a gain in utility of one agent means (prospective) loss of utility of the other's. Considering that, the initial fitness value of the $i-th$ specimen in the population was a sum of $n$ markers gathered by an agent controlled by a tested tree, multiplied by a resource point constant $C_1$. This, however, wasn't feasible as a long-term solution. To introduce differentiability between the specimen scoring the same amounts of markers, a  factor of time in milliseconds multiplied by constant $C_2$ was then subtracted from the sum. Additionally, to coerce the algorithm into preferring smaller trees, a tree size factor with weight $C_3$ was further subtracted from this value. The finished formula for fitness function is presented on Equation \ref{eq:x scenario1fitness}.
+The competitive scenario is effectively a zero-sum game: a gain in utility of one agent means (prospective) loss of utility for the others. Considering that, the initial fitness value of the $i-th$ specimen in the population was a sum of $n$ markers gathered by an agent controlled by a tested tree, multiplied by a resource point constant $C_1$. This, however, wasn't feasible as a long-term solution. To introduce differentiability between the specimen scoring the same amounts of markers, a  factor of time in milliseconds multiplied by constant $C_2$ was then subtracted from the sum. Additionally, to coerce the algorithm into preferring smaller trees, a tree size factor with weight $C_3$ was further subtracted from this value. The finished formula for fitness function is presented on Equation \ref{eq:x scenario1fitness}.
 \begin{equation}
     \label{eq:x scenario1fitness}
 f(i) = C_1 * n - (\frac{t}{C_2} + \frac{s}{C_3})
@@ -112,7 +112,7 @@ Table \ref{table:x selectedbtparameters} presents selected parameters used durin
         \hline \hline
         Parameter Name & Parameter Value \\
         \hline
-        Maximum Tree Depth & 6
+        Maximum Tree Depth & 6 \\
         Starting Generation Minimum Tree Size & 20 \\
         Starting Generation Maximum Tree Size & 30 \\
         Headless Chicken Generated Tree Minimum Size & 10 \\

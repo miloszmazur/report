@@ -3,7 +3,7 @@ Albeit the goal stated in the introduction chapter is focused at the method of o
 
 Additionally, there is also one critical advantage to using evolutionary learning methods: the possibility of early termination through end condition. With the right fitness function the option to take an undeveloped tree as a template and improve it becomes perfectly possible. This can be useful in more sophisticated problems, when manual tuning will complement evolutionary method's solution. % to be perfectly honest, I'm not sure if this is the appropriate place to be making such claims - I mean discussing practical advantages.
 \section{Formulating a Task}
-In order to properly assess feasibility of the system in making, a common task had to be constructed to compare different variations of a system in-making against each other. Scenario type chosen for this task was a resource gathering.
+In order to properly assess feasibility of the system in making, a common task had to be constructed to compare different variations of a system in-making against each other. Scenario type chosen for this task was a resource gathering, a domain referred in \cite{cooperationstateoftheart} as \textbf{foraging}.
 
 The premise of this particular scenario was as follows: a certain amount of numbered resource markers (portrayed as flags in the simulation) were scattered across the simulated environment resembling a warehouse. The agents, starting from designated spawn points, are tasked with claiming as many of them as possible against a fixed time limit. \textit{Claiming} in this case was a process consisting of approaching a certain vicinity of a marker, at which point it was despawned and marked off as \textit{captured} by an agent initiating the claiming. Making the process instantaneous ensured that markers would be claimed on FCFS (\textit{First-Come, First-Served}) basis. Accompanying the evolutionary agent was the human-defined tree, filling a role of a rival - in a competitive scenario - or a partner - in the cooperative one.
 
@@ -29,7 +29,7 @@ The selection method of choice is a regular implementation of Tournament Selecti
 \subsubsection{Crossover}
 On each iteration, two selected specimen have a chance (determined by crossover rate parameter) to produce two children which will be put into the next generation instead of them. The crossover itself is a single-point version, implemented as a exchange of randomly selected nodes (one from each tree) without minding their type nor location.
 \subsubsection{Mutation}
-Genetic Programming framework offers two methods of mutation: micro- and macromutation, explained in chapter \ref{chapter_background}. Both were implemented: initially, only the possibility for the tree to undergo micromutation is tested - that is implemented by resetting randomly chosen node's parameters to a random values. However, each tree selected for a micromutation process (probability of which is dictated by a mutation rate) has a chance to undergo a macromutation process instead - that, in turn, is determined by a separate, macromutation rate. In this case, micromutation step is replaced entirely with ``Headless Chicken'' mutation.
+Genetic Programming framework offers two methods of mutation: micro- and macromutation, previously explained in chapter \ref{chapter_background}. Both were implemented: initially, only the possibility for the tree to undergo micromutation is tested - that is implemented by resetting randomly chosen node's parameters to a random values. However, each tree selected for a micromutation process (probability of which is dictated by a mutation rate) has a chance to undergo a macromutation process instead - that, in turn, is determined by a separate, macromutation rate. In this case, micromutation step is replaced entirely with ``Headless Chicken'' mutation.
 \subsubsection{Fitness function}
 Due to the format of the experiments, where solutions to two different scenarios were explored separately, used fitness function varied between experiments. There is, however, a number of factors that were considered relevant to the fitness of the specimen that can be presented now. These were:
 \begin{itemize}
@@ -46,7 +46,7 @@ Specimen were built from only three kinds of nodes: \textit{Selector}, \textit{S
 Furthermore, \textit{goToFlag} Action provided additional two variants, tied with the identifier argument. While values of 1-7 would select one of the existing markers, values $-1$ and $0$ held special meaning: -1 would set the course on the furthest \textit{available} (non-claimed) marker, while the latter would select nearest one. This was done in order to see if that level of abstraction would be preferable in certain situations, acting with critical timing against unchanging reference agent. The listing below presents pseudocode algorithm of \textit{goToFlag} Action.
 
 \begin{lstlisting}[language=C++]
-actionGoToFlag(int identifier) //checks if identifier is in range [-1, 7] before
+actionGoToFlag(int identifier)
 {
     if (identifier ==  -1)
         goToFurthestFlag()
