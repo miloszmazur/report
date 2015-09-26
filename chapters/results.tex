@@ -240,6 +240,7 @@ Figure \ref{fig:x cooperativebestspecimentreesizeplot} presents identical change
     \label{fig:x cooperativebestspecimentreesizeplot}
 \end{figure}
 The decrease in node count in cooperative scenario is much more sudden - tree size had 10 times more influence on the fitness value of the specimen compared to competitive case (Table \ref{table:x tunedfitnessfunctionparameterscoop} for cooperative case, Table \ref{table:x tunedfitnessfunctionparameterscomp} for competitive case). With that large influence from the start, it is not unusual that the node count drops twice between the first and second generation. The decrease is sustained through the further generations (not without few slip-ups, when the best specimen was dropped from the population) to stabilize on 19th iteration.
-%\section{Statistical Comparison}
+\section{ Larger Scale Results } % this needs to change. Extended experiments?
+To gain insight on how the algorithm approaches the two scenarios, we decided to compare the results of multiple executions. Given that the one full run of the algorithm takes 20 000 simulation runs, we decided to distribute the testing over 10 computers, each capable of running two instances of our application at once without loss of performance. The pace of the simulations was also adjusted to 3 times the regular speed to increase the number of results achieved in a reasonable time.
 
-%\section{Comparison Grounds}
+Overall, we were able to gather 50 results per case (cooperative \& competitive).
