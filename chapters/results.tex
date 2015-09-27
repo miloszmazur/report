@@ -32,7 +32,8 @@ The competitive scenario is effectively a zero-sum game: a gain in utility of on
 f(i) = C_1 * n - (\frac{t}{C_2} + \frac{s}{C_3})
 \end{equation}
 \subsection{Success Criterion}
-With the goal of maximizing personal gain, which is the case with the considered scenario, desirable trees are those that claim every possible marker. However, since evolutionary agent's spawn position put it at the disadvantage (making it impossible to gather the first flag), only solutions with $n-1$ flags gathered out of $n$ possible would be considered ``successful''. The true goal of a ideal solution was then to create a big enough difference in time taken to visit the markers, allowing it to reach and claim the last one.
+\label{section_competitive_success}
+With the goal of maximizing personal gain, which is the case with the considered scenario, desirable trees are those that claim every possible marker. However, since evolutionary agent's spawn position put it at the disadvantage (making it impossible to gather the first flag), only solutions with $n - 1$ flags gathered out of $n$ possible would be considered ``successful''. The true goal of a ideal solution was then to create a big enough difference in time taken to visit the markers, allowing it to reach and claim the last one.
 \section{Cooperative Scenario Specification}
 \subsection{Synopsis}
 Cooperative scenario, in contrast to the ``selfishly'' motivated competitive one, takes a broader perspective. Instead of competing, agents were expected to work with each other towards claiming all 5 markers. However in time, the layout of the scenario was modified to maintain uniformity between the two cases' layout - that included both increasing the number of flags to 7 and modifying the agents' spawn positions - for comparison reasons.
@@ -44,6 +45,7 @@ f(i) = C_1 * (n + m) - (\frac{t}{C_2} + \frac{s}{C_3})
 \end{equation} % legend?
 
 \subsection{Success Criterion}
+\label{section_cooperative_success}
 In the cooperative case, the underlaying goal is to divide the markers between two agents in the most efficient way. To effectively operate, the desired outcome is achieving completion time shorter than the time it takes for the reference agent to complete his route. In other words, a successful solution will be able to successfully adapt itself to a potential partner's route and improve upon it in terms of time.
 
 \section{Fitness Function Parameters}
