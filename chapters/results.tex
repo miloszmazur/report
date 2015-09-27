@@ -243,6 +243,48 @@ Figure \ref{fig:x cooperativebestspecimentreesizeplot} presents identical change
 \end{figure}
 The decrease in node count in cooperative scenario is much more sudden - tree size had 10 times more influence on the fitness value of the specimen compared to competitive case (Table \ref{table:x tunedfitnessfunctionparameterscoop} for cooperative case, Table \ref{table:x tunedfitnessfunctionparameterscomp} for competitive case). With that large influence from the start, it is not unusual that the node count drops twice between the first and second generation. The decrease is sustained through the further generations (not without few slip-ups, when the best specimen was dropped from the population) to stabilize on 19th iteration.
 \section{ Larger Scale Results } % this needs to change. Extended experiments?
-To gain insight on how the algorithm approaches the two scenarios, we decided to compare the results of multiple executions. Given that the one full run of the algorithm takes 20 000 simulation runs, we decided to distribute the testing over 10 computers, each capable of running two instances of our application at once without loss of performance. The pace of the simulations was also adjusted to 3 times the regular speed to increase the number of results achieved in a reasonable time.
+To gain insight on how the algorithm's learning progresses through the two scenarios, we decided to compare the results of multiple executions. Given that the one full run of the algorithm takes 20 000 simulation runs, we decided it was necessary to distribute the testing over 10 computers, each capable of running two instances of our application at once without loss of performance. The pace of the simulations was also adjusted to 3 times the regular speed to increase the number of results achieved in a reasonable time.
 
-Overall, we were able to gather 50 results per case (cooperative \& competitive).
+Overall, we were able to gather 50 results per case. They were then analyzed using previously defined (in sections \ref{section_competitive_success} and \ref{section_cooperative_success}) criteria: in competitive scenario, successful specimen had to claim more markers then the opponent; in cooperative case, candidate was deemed successful if his behavior improved on a total completion time. Table \ref{table:x mass_results_comp} presents acquired findings for competitive case, while table \ref{table:x mass_results_coop} contains findings of the other scenario.
+
+\begin{table} [h]
+    \centering
+    \begin{tabular} {l r}
+        \hline \hline
+        Description & Value \\
+        \hline
+        Successful specimen present after 10 generations & 18\% \\
+        Successful specimen present after 30 generations & 52\% \\
+        Successful specimen present after 50 generations & 70\% \\
+        Successful specimen present after 70 generations & 74\% \\
+        Successful specimen present after 100 generations & 78\% \\
+        Minimum size achieved after 10 generations & 2\% \\
+        Minimum size achieved after 30 generations & 16\% \\
+        Minimum size achieved after 50 generations & 18\% \\
+        Minimum size achieved after 100 generations & 20\% \\
+
+    \end{tabular}
+    \caption{Selected statistical data gathered from larger scale experiments: competitive}
+    \label{table:x mass_results_comp}
+\end{table}
+
+\begin{table} [h]
+    \centering
+    \begin{tabular} {l r}
+        \hline \hline
+        Description & Value \\
+        \hline
+        Successful specimen present after 10 generations & 4\% \\
+        Successful specimen present after 30 generations & 10\% \\
+        Successful specimen present after 50 generations & 20\% \\
+        Successful specimen present after 70 generations & 24\% \\
+        Successful specimen present after 100 generations & 30\% \\
+        Minimum size achieved after 10 generations & 60\% \\
+        Minimum size achieved after 30 generations & 70\% \\
+        Minimum size achieved after 50 generations & 70\% \\
+        Minimum size achieved after 100 generations & 70\% \\
+
+    \end{tabular}
+    \caption{Selected statistical data gathered from larger scale experiments: cooperative}
+    \label{table:x mass_results_coop}
+\end{table}
