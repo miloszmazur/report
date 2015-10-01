@@ -49,6 +49,7 @@ f(i) = C_1 * (n + m) - (\frac{t}{C_2} + \frac{s}{C_3})
 In the cooperative case, the underlaying goal is to divide the markers between two agents in the most efficient way. To effectively operate, the desired outcome is achieving completion time shorter than the time it takes for the reference agent to complete his route. In other words, a successful solution will be able to successfully adapt itself to a potential partner's route and improve upon it in terms of time.
 
 \section{Fitness Function Parameters}
+\label{section_fitness_function_tuning}
 The aforementioned point constants of the fitness function, defined as follows:
 \begin{itemize}
     \item $C_1$ - resource marker point value
@@ -243,48 +244,114 @@ Figure \ref{fig:x cooperativebestspecimentreesizeplot} presents identical change
 \end{figure}
 The decrease in node count in cooperative scenario is much more sudden - tree size had 10 times more influence on the fitness value of the specimen compared to competitive case (Table \ref{table:x tunedfitnessfunctionparameterscoop} for cooperative case, Table \ref{table:x tunedfitnessfunctionparameterscomp} for competitive case). With that large influence from the start, it is not unusual that the node count drops twice between the first and second generation. The decrease is sustained through the further generations (not without few slip-ups, when the best specimen was dropped from the population) to stabilize on 19th iteration.
 \section{ Larger Scale Results } % this needs to change. Extended experiments?
-To gain insight on how the algorithm's learning progresses through the two scenarios, we decided to compare the results of multiple executions. Given that the one full run of the algorithm takes 20 000 simulation runs, we decided it was necessary to distribute the testing over 10 computers, each capable of running two instances of our application at once without loss of performance. The pace of the simulations was also adjusted to 3 times the regular speed to increase the number of results achieved in a reasonable time.
+To gain insight on how the algorithm's learning progresses through the two scenarios, we decided to compare the results of multiple executions. Given that the one full run of the algorithm takes 20 000 simulation runs, we decided it was necessary to distribute the testing over 10 computers, each capable of running two instances of our application at once without loss of performance. Given the resources available, we managed to achieve a large enough number of results in a reasonable amount of time.
 
-Overall, we were able to gather 50 results per case. They were then analyzed using previously defined (in sections \ref{section_competitive_success} and \ref{section_cooperative_success}) criteria: in competitive scenario, successful specimen had to claim more markers then the opponent; in cooperative case, candidate was deemed successful if his behavior improved on a total completion time. Table \ref{table:x mass_results_comp} presents acquired findings for competitive case, while table \ref{table:x mass_results_coop} contains findings of the other scenario.
+Overall, we were able to gather 50 results per case. They were then analyzed using previously defined (in sections \ref{section_competitive_success} and \ref{section_cooperative_success}) criteria: in competitive scenario, successful specimen had to claim all possible markers; in cooperative case, candidate was deemed successful if his behavior improved on a total completion time. Tables \ref{table:x mass_results_comp} and \ref{table:x mass_results_coop} present a number of selected findings acquired in these experiments.
 
-\begin{table} [h]
+\begin{table} [H]
     \centering
     \begin{tabular} {l r}
         \hline \hline
         Description & Value \\
         \hline
         Successful specimen present after 10 generations & 18\% \\
-        Successful specimen present after 30 generations & 52\% \\
         Successful specimen present after 50 generations & 70\% \\
-        Successful specimen present after 70 generations & 74\% \\
         Successful specimen present after 100 generations & 78\% \\
+        \\
         Minimum size achieved after 10 generations & 2\% \\
-        Minimum size achieved after 30 generations & 16\% \\
         Minimum size achieved after 50 generations & 18\% \\
         Minimum size achieved after 100 generations & 20\% \\
-
     \end{tabular}
-    \caption{Selected statistical data gathered from larger scale experiments: competitive}
+    \caption{Selected facts from statistical data gathered from larger scale experiments in competitive case}
     \label{table:x mass_results_comp}
 \end{table}
 
-\begin{table} [h]
+\begin{table} [H]
     \centering
     \begin{tabular} {l r}
         \hline \hline
         Description & Value \\
         \hline
-        Successful specimen present after 10 generations & 4\% \\
-        Successful specimen present after 30 generations & 10\% \\
-        Successful specimen present after 50 generations & 20\% \\
-        Successful specimen present after 70 generations & 24\% \\
-        Successful specimen present after 100 generations & 30\% \\
-        Minimum size achieved after 10 generations & 60\% \\
-        Minimum size achieved after 30 generations & 70\% \\
+        Successful specimen present after 10 generations & 20\% \\
+        Successful specimen present after 50 generations & 40\% \\
+        Successful specimen present after 100 generations & 50\% \\
+        \\
+        Minimum size achieved after 10 generations & 56\% \\
         Minimum size achieved after 50 generations & 70\% \\
         Minimum size achieved after 100 generations & 70\% \\
-
     \end{tabular}
-    \caption{Selected statistical data gathered from larger scale experiments: cooperative}
+    \caption{Selected facts from statistical data gathered from larger scale experiments in cooperative case}
     \label{table:x mass_results_coop}
 \end{table}
+
+The full results of the testing are visible on Figure \ref{fig:x mass_test_plots}, containing two plots depicting success ratio in the set of 50 results through the algorithm's iterations (Figure \ref{fig: massfitnesscomp} for competitive case, Figure \ref{fig: massfitnesscoop} for cooperative one), as well as two plots with the additional metric: Figures \ref{fig: masstreesizecomp} and \ref{fig: masstreesizecoop} present success rate of the algorithm producing specimen of a minimal accepted tree size: that number was picked separately for each scenario based on the previous notion of the solutions' design. Table \ref{table:x mass_test_success_criteria} contains all criteria used in determining success of the selected metrics.
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{mass_test_fitness_comp}
+        \caption{Success ratio progression with the number of iterations in competitive scenario}
+        \label{fig: massfitnesscomp}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{mass_test_treesize_comp}
+        \caption{Minimal tree size acquirement ratio progression with the number of iterations in competitive scenario}
+        \label{fig: masstreesizecomp}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{mass_test_fitness_coop}
+        \caption{Success ratio progression with the number of iterations in cooperative scenario}
+        \label{fig: massfitnesscoop}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{mass_test_treesize_coop}
+        \caption{Minimal tree size acquirement ratio progression with the number of iterations in cooperative scenario}
+        \label{fig: masstreesizecoop}
+    \end{subfigure}
+    \caption{Collected results of a larger scale experiments}
+    \label{fig:x mass_test_plots}
+\end{figure}
+
+\begin{table} [H]
+    \centering
+    \begin{tabular} {l r}
+        \hline \hline
+        Criterion & Value \\
+        \hline
+        Minimum number markers claimed in competitive scenario & 6 \\
+        Maximum size of a specimen allowed in competitive scenario & 7 \\
+        Maximum time of completion allowed in cooperative scenario & 4.5s \\
+        Maximum size of a specimen allowed in cooperative scenario & 4 \\
+    \end{tabular}
+    \caption{Criteria used in determining success ratio in experiments.}
+    \label{table:x mass_test_success_criteria}
+\end{table}
+
+\newpage
+The important thing to note when analyzing the results is the fact that the two scenarios' rates of success are not, directly or otherwise, comparable. Both Fitness and Tree Size \textit{goals} were chosen with great care, but remain only empirically picked values.
+The overall success ratio, understood as ``percentage of algorithm's runs that produce at least one specimen that can be considered successful by $n-th$ generation'', underwent steady rise in both cooperative and competitive scenario, although two lengthy periods of stagnation can be observed during iterations 40-64 and 72-88 in cooperative case. While the growth rate itself will be discussed further down in this section, competitive case result greatly overshadowed cooperative scenario ratio, exhibiting much higher consistency.
+
+Examining plots depicting minimizing of tree size progression, one can instantly see a difference in fitness function weighting, described previously in section \ref{section_fitness_function_tuning}. Adaptation in cooperative scenario is much more focused on size of the specimen, to the point where over our criterion for size was fulfilled by 10th generation in over 50\% of the results. Even so, 30\% of results didn't reach the requirement by 100th generation - almost certainly stuck in local minima. The situation in competitive scenario is quite different, however. The progression systematically rises through local plateaus, but the results at the and show that only 20\% of the results produced a specimen of a required size. Results from this variant, however, show a continuous improvement to the very end of testing; long period of stagnation observed in results of cooperative case after a rapid rise up to 15th generation are a clear indication that in 30\% of the cases, a larger rate of mutation would be needed to break the local optima.
+
+Figures \ref{fig:x mass_test_two_scenarios} and \ref{fig:x mass_test_two_scenarios_normalized} were created in order to help with analysis of success ratio growth rate, that is to say the learning progression of the algorithm. Figure \ref{fig:x mass_test_two_scenarios} contains the two plots previously seen on figures \ref{fig: massfitnesscomp} and \ref{fig: massfitnesscoop} side by side. Figure \ref{fig:x mass_test_two_scenarios_normalized} contains the same two plots, but normalized, for the purposes of more direct comparison. The normalization was done with the assumption that both cases reached their respective global optima at the end of 102th generation - while this might be proven not to be the case, the comparison of the learning rate of the algorithm up to that moment is available to us at that moment.
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.4]{mass_test_two_scenarios}
+    \caption{Success ratio progression wit the number or iterations in competitive and cooperative scenarios}
+    \label{fig:x mass_test_two_scenarios}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.4]{mass_test_two_scenarios_normalized}
+    \caption{Normalized success ratio progression wit the number or iterations in competitive and cooperative scenarios}
+    \label{fig:x mass_test_two_scenarios_normalized}
+\end{figure}
+
+The two curves depicted next to each other testify to how similar the problems are when the learning progression is compared. The small advantage of the cooperative scenario curve displayed in iterations 0 to 38 stops at a point in which the two curves intersect - from this point onward, competitive scenario clearly grows in a higher rate. The intersection point from the perspective of cooperative case happens during a longer stagnation period, and then again, at the start of a next one. The growth of success rate was different between the two intersection points, with competitive results exhibiting 2 percent points less growth then cooperative did. At a point of cooperative case being overtaken it showed 38\% success rate, compared to 60\% yielded by competitive scenario. Unfortunately, without proper error measurement it's impossible to state with full certainty that this curve positioning, with cooperative case growing quicker at the beginning only to fall off in approximately one third of the experiments is, in fact, of significance.
