@@ -4,7 +4,7 @@
 %
 \documentclass[12pt]{scrreprt}
 \usepackage[utf8]{inputenc}
-\usepackage [backend=bibtex]{biblatex}
+\usepackage [backend=bibtex, sorting=none]{biblatex}
 \addbibresource{bibliography.bib}
 \usepackage{graphicx}
 \graphicspath{ {images/} }
@@ -13,11 +13,11 @@
 \usepackage{subcaption}
 \usepackage{mathtools}
 \usepackage{listings}
+\usepackage{float}
 \begin{document}
 % Title Page
 \author{Miłosz Mazur}
-\title{Cooperation Evolved}
-\subtitle{Behavior Trees evolution by means of Genetic Programming}
+\title{Behavior Trees evolution by means of Genetic Programming}
 \maketitle
 
 \newpage
@@ -25,10 +25,10 @@
 Behavior Trees are a method for AI programming that consists of a tree of hierarchical nodes controlling the flow of agent's decision making. They have proven, while being a pretty straightforward means to implement an AI, to be incredibly powerful way of obtaining autonomous agents, both due to a fact that the development can be iterable (one can start with implementing simple behavior and gradually improve the tree by adding and modifying nodes and branches) and allowing for, so to say, ``fallback tactics'', should the currently executed action fail.  Born in the game industry, they have since gained fair amount of popularity in other domains, including robotics.
 Evolutionary algorithms, largely popularized by John Holland \cite{hollandadaptation}, have been adapted for use in a vast variety of different problems, including optimization issues and decision handling, often through introducing serious changes to both the algorithm structure and data structures used. Arguably, one of the most valuable modifications was Genetic Programming, popularized through works of John Koza (\cite{kozagp}).
 
-This thesis documents the work on combining Behavior Trees and Genetic Programming in order to study and observe cooperative and adversative behaviors between agents controlled by genetically generated Behavior Trees. Evolving two kinds of agents in two contrasting scenarios, this thesis focuses on \textit{feasibility} of cooperation and its evolution.  % two sentences about scenarios
+This thesis documents the work on combining Behavior Trees and Genetic Programming in order to study and observe cooperative and adversative behaviors between agents controlled by genetically generated Behavior Trees. Evolving two kinds of agents in two contrasting scenarios, this thesis focuses on \textit{feasibility} of selfishness versus utilitarian behaviors and their evolution. After defining what constitutes a success for each case, we attempt to compare the results from respective scenarios to see which behavior type is \textit{profitable} to exhibit.
 
-\chapter*{Acknowledgements}
-\input{chapters/acknowledgements}
+% \chapter*{Acknowledgements}
+% \input{chapters/acknowledgements}
 \tableofcontents
 \listoffigures
 \listoftables
